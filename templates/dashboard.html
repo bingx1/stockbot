@@ -1,0 +1,31 @@
+{% extends "base.html" %} 
+{% block app_content %}
+<main class="container">
+    <div class="d-flex align-items-center p-3 my-3 text-white bg-dark rounded shadow-sm">
+      <div class="lh-1">
+        <h1 class="h6 mb-0 text-white lh-1">Dashboard</h1>
+        <small>Currently tracking {{ number }} items.</small>
+      </div>
+    </div>
+  
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
+      <h6 class="border-bottom pb-2 mb-0" style="color:crimson">Recent updates </h6>
+      {% for change in changes %} 
+      {% include 'dashboard_change.html' %} 
+      {% endfor %}
+      <small class="d-block text-end mt-3">
+        <a href="#">All updates</a>
+      </small>
+    </div>
+  
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
+      <h6 class="border-bottom pb-2 mb-0" style="color:green">Currently in stock</h6>
+      {% for item in items %} 
+      {% include 'dashboard_item.html' %} 
+      {% endfor %}
+      <small class="d-block text-end mt-3">
+        <a href="/items">All items</a>
+      </small>
+    </div>
+
+{% endblock %}

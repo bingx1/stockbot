@@ -1,0 +1,10 @@
+<div class="d-flex text-muted pt-3">
+  <p class="pb-3 mb-0 small lh-sm border-bottom">
+    <strong class="d-block text-gray-dark">{{ change.item_name }}</strong>
+    {% if change.restock %}
+    <a>Restocked on {{ change.timestamp }}</a>
+    {% else %}
+    <a>Out of stock on {{ change.timestamp }}</a>
+    {% endif %}
+  </p>
+</div>

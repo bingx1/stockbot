@@ -1,0 +1,22 @@
+{% extends "base.html" %} {% block app_content %}
+<main class="container">
+  <div class="p-4 p-md-5 mb-4 text-black rounded bg-light">
+    <div class="col-md-6 px-0">
+      <h1 class="display-4 fst-italic">Welcome to Stockbot!</h1>
+      <p class="lead my-3">
+        Stockbot was written to simplify keeping track of all the gym equipment
+        you've been after during COVID-19. All your favourite equipment. In one
+        place.
+      </p>
+      <p class="lead mb-0">
+        <a href="/items" class="text-black fw-bold"
+          >Take a look at all the items we support!</a
+        >
+      </p>
+    </div>
+  </div>
+
+  <h1>Highlights</h1>
+  {% for item in items %} {% include '_item.html' %} {% endfor %}
+</main>
+{% endblock %}

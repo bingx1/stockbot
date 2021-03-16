@@ -1,0 +1,12 @@
+<div class="d-flex text-muted pt-3">
+
+    <p class="pb-3 mb-0 small lh-sm border-bottom">
+        {% if item.stock %}
+        <strong class="d-block text-gray-dark" style="color: green;">{{ item.name }}</strong>
+        {% else %}
+        <strong class="d-block text-gray-dark" style="color:crimson;">{{ item.name }}</strong>
+        {% endif %}  
+        ${{ item.price }}
+    </p>
+  </div>
+  

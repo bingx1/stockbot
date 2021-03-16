@@ -1,0 +1,8 @@
+{% extends "base.html" %} 
+{% block app_content %}
+    <div class="my-3 p-3 bg-body rounded shadow-sm">
+      <h4 class="border-bottom pb-2 mb-0">Search results for '{{ query }}'</h4>
+
+{% for item in items %} {% include '_item.html' %} {% endfor %}
+{% endblock %}
+
