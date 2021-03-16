@@ -1,5 +1,10 @@
 # Stock Bot
-Backend written in Flask for a stock bot to track gym equipment. Supports a number of manufacturers
+Backend written in Flask for a stock bot to track gym equipment. 
+Performs scraping of supported items on a scheduled basis (~5 minutes) via Celery.
+
+## Currently supported manufacturers:
+- Rogue
+- ATX
 
 ## Structure
 1. Flask (backend) 
