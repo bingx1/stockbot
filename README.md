@@ -4,7 +4,6 @@ Performs scraping of supported items on a scheduled basis (~5 minutes) via Celer
 
 ## Currently supported manufacturers:
 - Rogue
-- ATX
 
 ## Structure
 1. Flask (backend) 
