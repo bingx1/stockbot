@@ -6,4 +6,8 @@ dbHandler = DbHandler()
 
 @items_api.route('/api/items/all', methods=['GET'])
 def fetch_all_items():
-    return 
+    return dbHandler.fetch_items_dict()
+
+@items_api.route('/api/changes/all', methods=['GET'])
+def fetch_all_items():
+    return dbHandler.fetch_changes_dict()
