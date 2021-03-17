@@ -8,8 +8,7 @@ broker_url = 'redis://localhost:6379/0'
 #used to schedule tasks periodically and passing optional arguments 
 beat_schedule = {
     'every-minute': {
-        'task': 'app.add',
+        'task': 'app.update_item_status',
         'schedule': 30.0,
-        'args': (1,2)
     },
 }
