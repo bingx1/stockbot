@@ -6,12 +6,9 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 
 app = Flask(__name__)
-DbHandler = DbHandler() 
+DbHandler = DbHandler()
 celery = make_celery(app)
 
-@celery.task()
-def add(a, b):
-    return a + b
 
 @celery.task()
 def update_item_status():
@@ -20,10 +17,12 @@ def update_item_status():
     update_changes(changes)
     return changes
 
+
 def update_changes(changes):
     for change in changes:
         DbHandler.put_change(change)
     return
+
 
 def fetch_and_parse(items):
     changes = []
@@ -34,6 +33,7 @@ def fetch_and_parse(items):
             if change:
                 changes.append(change)
     return changes
+
 
 def parse_and_return(html, item):
     soup = BeautifulSoup(html.text, 'html.parser')
@@ -55,7 +55,8 @@ def parse_and_return(html, item):
     if change:
         return [item.name, item.stock, datetime.now()]
     else:
-        return None 
+        return None
+
 
 @app.route('/index')
 @app.route('/')
@@ -63,20 +64,23 @@ def index():
     all_items = DbHandler.fetch_items_dict()
     return render_template('index.html', title='Home', items=all_items[:2])
 
+
 @app.route('/about')
 def about():
     return render_template('about.html')
 
-@app.route('/search', methods = ['GET','POST'])
+
+@app.route('/search', methods=['GET', 'POST'])
 def search():
     items = DbHandler.fetch_items_dict()
     if request.method == 'POST':
-        req = request.form  
+        req = request.form
         print(req)
         query = req.get('search')
         query_result = parse_query(query, items)
         return render_template('search_results.html', items=query_result, query=query)
     return render_template('search.html')
+
 
 def parse_query(query, items):
     queries = query.split()
@@ -87,10 +91,11 @@ def parse_query(query, items):
                 result.append(item)
     return result
 
+
 @app.route('/items')
 def get_items():
     all_items = DbHandler.fetch_items_dict()
-    return render_template('items.html', number = len(all_items), items = all_items)
+    return render_template('items.html', number=len(all_items), items=all_items)
 
 
 @app.route('/dashboard')
@@ -98,7 +103,8 @@ def dashboard():
     all_changes = DbHandler.fetch_changes_dict()
     items = DbHandler.fetch_items_dict()
     in_stock = [item for item in items if item['stock']]
-    return render_template('dashboard.html', number=10, changes = all_changes, items=in_stock)
+    return render_template('dashboard.html', number=10, changes=all_changes, items=in_stock)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
