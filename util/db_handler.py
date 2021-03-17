@@ -59,10 +59,10 @@ class DbHandler():
         with Connection():
             return [item._data for item in Item.objects]
 
-    def fetch_changes_dict(self):
+    def fetch_changes_dict(self, num):
         ''' Returns a list of changes as python dictionaries'''
         with Connection():
-            return [change._data for change in Change.objects]
+            return [change._data for change in Change.objects[:num]]
 
     def get_items(self):
         ''' Returns a list of all the Item objects in the database'''
