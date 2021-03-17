@@ -17,7 +17,13 @@ def add(a, b):
 def update_item_status():
     items = DbHandler.get_items()
     changes = fetch_and_parse(items)
+    update_changes(changes)
     return changes
+
+def update_changes(changes):
+    for change in changes:
+        DbHandler.put_change(change)
+    return
 
 def fetch_and_parse(items):
     changes = []

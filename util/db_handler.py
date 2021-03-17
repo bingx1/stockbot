@@ -29,6 +29,14 @@ class DbHandler():
                     new_item.name))
         return
 
+
+    def put_change(self, change_data):
+        ''' change_data = [item.name, item.stock, datetime.now()] '''
+        new_change = Change(item_name = change_data[0], restock = change_data[1], timestamp = change_data[2])
+        with Connection():
+            new_change.save()
+        return
+
     def exists(self, item_name: str) -> bool:
         ''' Checks to see whether an item with the same name already exists in the database'''
         for item in Item.objects:
