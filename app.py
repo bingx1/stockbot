@@ -83,7 +83,7 @@ def search():
 
 
 def parse_query(query, items):
-    queries = query.split()
+    queries = query.split() 
     result = []
     for item in items:
         for q in queries:
@@ -91,6 +91,9 @@ def parse_query(query, items):
                 result.append(item)
     return result
 
+@app.route('/faq')
+def faq():
+    return render_template('faq.html')
 
 @app.route('/items')
 def get_items():
