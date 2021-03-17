@@ -100,10 +100,14 @@ def get_items():
 
 @app.route('/dashboard')
 def dashboard():
-    all_changes = DbHandler.fetch_changes_dict()
+    all_changes = DbHandler.fetch_changes_dict()[:4]
     items = DbHandler.fetch_items_dict()
     in_stock = [item for item in items if item['stock']]
-    return render_template('dashboard.html', number=10, changes=all_changes, items=in_stock)
+    last_update = DbHandler.fetch_last_update()
+    date = last_update[0]['date_done']
+    date = datetime(int(date[:4]),int(date[5:7]),int(date[8:10]),int(date[11:13]), int(date[14:16]))
+    time_formatted = date.strftime(r"%A, %b %d %I:%M%p")
+    return render_template('dashboard.html', date = time_formatted, changes=all_changes, items=in_stock)
 
 
 if __name__ == "__main__":

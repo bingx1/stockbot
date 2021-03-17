@@ -1,6 +1,6 @@
 import mongoengine
 import json
-from util.models import Change, Item
+from util.models import Change, Item, Taskmeta
 
 class Connection:
     def __enter__(self):
@@ -76,8 +76,7 @@ class DbHandler():
     
     def fetch_last_update(self):
         with Connection():
-            return .objects().order_by('timestamp')[:3]
-
+            return [taskmeta._data for taskmeta in Taskmeta.objects().order_by('-date_done')[:1]]
 if __name__ == "__main__":
     db = DbHandler()
     x = db.fetch_items_dict()
