@@ -31,7 +31,7 @@ class DbHandler():
 
 
     def put_change(self, change_data):
-        ''' change_data = [item.name, item.stock, datetime.now()] '''
+        ''' Change_data = [item.name, item.stock, datetime.now()] '''
         new_change = Change(item_name = change_data[0], restock = change_data[1], timestamp = change_data[2])
         with Connection():
             new_change.save()
@@ -73,6 +73,10 @@ class DbHandler():
         ''' Returns a list of all the Item objects in the database'''
         with Connection():
             return Change.objects
+    
+    def fetch_last_update(self):
+        with Connection():
+            return .objects().order_by('timestamp')[:3]
 
 if __name__ == "__main__":
     db = DbHandler()

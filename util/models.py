@@ -25,3 +25,10 @@ class Change(mongoengine.Document):
     restock = mongoengine.BooleanField(required=True)
     timestamp = mongoengine.DateTimeField(required=True)
     meta = {'collection': 'changes'}
+
+class Taskmeta(mongoengine.DynamicDocument):
+    status = mongoengine.StringField()
+    result = mongoengine.ListField()
+    children = mongoengine.ListField()
+    date_done = mongoengine.DateTimeField()
+    meta = {'collection' : 'taskmeta'}
