@@ -1,19 +1,20 @@
 from flask import Flask, jsonify, request, render_template
 from util.db_handler import DbHandler
+from tasks import make_celery
+
 app = Flask(__name__)
 DbHandler = DbHandler() 
+celery = make_celery(app)
 
+@celery.task()
+def add(a, b):
+    return a + b
 
- 
 @app.route('/index')
 @app.route('/')
 def index():
     all_items = DbHandler.fetch_items_dict()
     return render_template('index.html', title='Home', items=all_items[:2])
-
-@app.route('/api/items/all', methods=['GET'])
-def fetch_all_items():
-    return
 
 @app.route('/about')
 def about():
