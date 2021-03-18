@@ -45,6 +45,11 @@ def faq():
 @webpages.route('/items')
 def get_items():
     all_items = MongoAdaptor.fetch_items_dict()
+    req = request.args
+    manufacturer = req.get('brand')
+    if manufacturer:
+        result = [item for item in all_items if item['manufacturer'].lower() == manufacturer.lower()]
+        return render_template('items.html', number=len(result), items=result)
     return render_template('items.html', number=len(all_items), items=all_items)
 
 
