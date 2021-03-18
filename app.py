@@ -6,6 +6,12 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 
 app = Flask(__name__)
+app.config['MONGODB_SETTINGS'] = {
+    'db': 'items',
+    'host': 'localhost',
+    'port': 27017
+}
+
 DbHandler = DbHandler()
 celery = make_celery(app)
 
