@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request, render_template
 from util.db_handler import DbHandler
-from tasks import make_celery
+from celeryfile.tasks import make_celery
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
@@ -61,8 +61,8 @@ def parse_and_return(html, item):
 @app.route('/index')
 @app.route('/')
 def index():
-    all_items = DbHandler.fetch_items_dict()
-    return render_template('index.html', title='Home', items=all_items[:2])
+    items = DbHandler.fetch_items_dict(2)
+    return render_template('index.html', title='Home', items=items)
 
 
 @app.route('/about')
@@ -106,7 +106,7 @@ def dashboard():
     recent_changes = DbHandler.fetch_changes_dict(3)
     items = DbHandler.fetch_items_dict()
     in_stock = [item for item in items if item['stock']]
-    last_update = DbHandler.fetch_last_update()
+    last_update = DbHandler.fetch_taskresults_dict(1)
     date = last_update[0]['date_done']
     date = datetime(int(date[:4]),int(date[5:7]),int(date[8:10]),int(date[11:13]), int(date[14:16]))
     time_formatted = date.strftime(r"%A, %b %d %I:%M%p")

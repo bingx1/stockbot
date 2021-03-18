@@ -54,15 +54,25 @@ class DbHandler():
                 print(s)
         return output
 
-    def fetch_items_dict(self):
+    def fetch_items_dict(self, num = None):
         ''' Returns a list of items as python dictionaries'''
         with Connection():
-            return [item._data for item in Item.objects]
+            if not num:
+                return [item._data for item in Item.objects]    
+            else:
+                return [item._data for item in Item.objects[:num]]
 
-    def fetch_changes_dict(self, num):
+    def fetch_changes_dict(self, num= None):
         ''' Returns a list of changes as python dictionaries'''
         with Connection():
-            return [change._data for change in Change.objects[:num]]
+            if not num:
+                return [change._data for change in Change.objects().order_by('-timestamp')]
+            else:
+                return [change._data for change in Change.objects().order_by('-timestamp')[:num]]
+
+    def fetch_taskresults_dict(self, num):
+        with Connection():
+            return [taskmeta._data for taskmeta in Taskmeta.objects().order_by('-date_done')[:num]]
 
     def get_items(self):
         ''' Returns a list of all the Item objects in the database'''
@@ -74,9 +84,7 @@ class DbHandler():
         with Connection():
             return Change.objects
     
-    def fetch_last_update(self):
-        with Connection():
-            return [taskmeta._data for taskmeta in Taskmeta.objects().order_by('-date_done')[:1]]
+
 if __name__ == "__main__":
     db = DbHandler()
     x = db.fetch_items_dict()
