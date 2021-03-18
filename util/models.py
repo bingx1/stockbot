@@ -1,14 +1,14 @@
-import mongoengine
+from .db import db
 
-class Item(mongoengine.Document):
-    name = mongoengine.StringField(required=True)
-    manufacturer = mongoengine.StringField()
-    price = mongoengine.IntField()
-    stock = mongoengine.BooleanField(required=True)
-    url = mongoengine.URLField(required=True)
-    lastStocked = mongoengine.DateTimeField()
-    date_added =mongoengine.DateTimeField()
-    img_url = mongoengine.URLField(required=True)
+class Item(db.Document):
+    name = db.StringField(required=True)
+    manufacturer = db.StringField()
+    price = db.IntField()
+    stock = db.BooleanField(required=True)
+    url = db.URLField(required=True)
+    lastStocked = db.DateTimeField()
+    date_added =db.DateTimeField()
+    img_url = db.URLField(required=True)
     meta = {'collection': 'items'}
 
     def __str__(self) -> str:
@@ -20,15 +20,15 @@ class Item(mongoengine.Document):
             self.name, self.price, self.url, stock_msg, self.lastStocked)
 
 # {"item_name" : "Rogue 45LB Ohio Power Bar - Bare Steel", 'restock': true, 'time': '7:15PM', 'date': '13/03/2021'}
-class Change(mongoengine.Document):
-    item_name = mongoengine.StringField(required=True)
-    restock = mongoengine.BooleanField(required=True)
-    timestamp = mongoengine.DateTimeField(required=True)
+class Change(db.Document):
+    item_name = db.StringField(required=True)
+    restock = db.BooleanField(required=True)
+    timestamp = db.DateTimeField(required=True)
     meta = {'collection': 'changes'}
 
-class Taskmeta(mongoengine.DynamicDocument):
-    status = mongoengine.StringField()
-    result = mongoengine.ListField()
-    children = mongoengine.ListField()
-    date_done = mongoengine.DateTimeField()
+class Taskmeta(db.DynamicDocument):
+    status = db.StringField()
+    result = db.ListField()
+    children = db.ListField()
+    date_done = db.DateTimeField()
     meta = {'collection' : 'taskmeta'}
