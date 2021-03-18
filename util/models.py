@@ -19,7 +19,6 @@ class Item(db.Document):
         return "{}\n[${}]({})\n{}\n < Last in stock: {} >\n".format(
             self.name, self.price, self.url, stock_msg, self.lastStocked)
 
-# {"item_name" : "Rogue 45LB Ohio Power Bar - Bare Steel", 'restock': true, 'time': '7:15PM', 'date': '13/03/2021'}
 class Change(db.Document):
     item_name = db.StringField(required=True)
     restock = db.BooleanField(required=True)

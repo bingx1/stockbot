@@ -1,11 +1,14 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request
+from util.mongo_adaptor import MongoAdaptor
+from datetime import datetime
+MongoAdaptor = MongoAdaptor()
 
 webpages = Blueprint('webpages', __name__, template_folder='templates')
 
 @webpages.route('/index')
 @webpages.route('/')
 def index():
-    items = DbHandler.fetch_items_dict(2)
+    items = MongoAdaptor.fetch_items_dict(2)
     return render_template('index.html', title='Home', items=items)
 
 
@@ -16,7 +19,7 @@ def about():
 
 @webpages.route('/search', methods=['GET', 'POST'])
 def search():
-    items = DbHandler.fetch_items_dict()
+    items = MongoAdaptor.fetch_items_dict()
     if request.method == 'POST':
         req = request.form
         print(req)
@@ -41,16 +44,16 @@ def faq():
 
 @webpages.route('/items')
 def get_items():
-    all_items = DbHandler.fetch_items_dict()
+    all_items = MongoAdaptor.fetch_items_dict()
     return render_template('items.html', number=len(all_items), items=all_items)
 
 
 @webpages.route('/dashboard')
 def dashboard():
-    recent_changes = DbHandler.fetch_changes_dict(3)
-    items = DbHandler.fetch_items_dict()
+    recent_changes = MongoAdaptor.fetch_changes_dict(3)
+    items = MongoAdaptor.fetch_items_dict()
     in_stock = [item for item in items if item['stock']]
-    last_update = DbHandler.fetch_taskresults_dict(1)
+    last_update = MongoAdaptor.fetch_taskresults_dict(1)
     date = last_update[0]['date_done']
     date = datetime(int(date[:4]),int(date[5:7]),int(date[8:10]),int(date[11:13]), int(date[14:16]))
     time_formatted = date.strftime(r"%A, %b %d %I:%M%p")

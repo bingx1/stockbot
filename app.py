@@ -1,25 +1,27 @@
 from flask import Flask, jsonify, request, render_template
-from util.db_handler import DbHandler
 from util.db import initialize_db
+from util.mongo_adaptor import MongoAdaptor
 from celeryfile.celeryinit import make_celery
+from routes.webpages import webpages
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 
 app = Flask(__name__)
+app.register_blueprint(webpages)
 app.config['MONGODB_SETTINGS'] = {
     'db': 'items',
     'host': 'localhost',
     'port': 27017
 }
 
-DbHandler = DbHandler()
 celery = make_celery(app)
 initialize_db(app)
+MongoAdaptor = MongoAdaptor()
 
 @celery.task()
 def update_item_status():
-    items = DbHandler.get_items()
+    items = MongoAdaptor.get_items()
     changes = fetch_and_parse(items)
     update_changes(changes)
     return changes
@@ -27,7 +29,7 @@ def update_item_status():
 
 def update_changes(changes):
     for change in changes:
-        DbHandler.put_change(change)
+        MongoAdaptor.put_change(change)
     return
 
 
@@ -47,15 +49,15 @@ def parse_and_return(html, item):
     change = False
     if soup.find(class_="button btn-size-m red full"):
         # Item has been restocked
-        print('Restocked!')
         if not item.stock:
+            print('Restocked!')
             item.lastStocked = datetime.now()
             item.stock = True
             change = True
     else:
-        print('Now OOS')
         # Item is now out of stock
         if item.stock:
+            print('Now OOS')
             item.stock = False
             change = True
     item.save()

@@ -17,7 +17,7 @@ class MongoAdaptor():
 
 
     def put_change(self, change_data):
-        ''' Change_data = [item.name, item.stock, datetime.now()] '''
+        ''' Puts an item using the change data passed into the database '''
         new_change = Change(item_name = change_data[0], restock = change_data[1], timestamp = change_data[2])
         new_change.save()
         return
