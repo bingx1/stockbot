@@ -35,7 +35,7 @@ def parse_query(query, items):
     for item in items:
         for q in queries:
             if q in item['name'].lower().split():
-                result.webpagesend(item)
+                result.append(item)
     return result
 
 @webpages.route('/faq')
