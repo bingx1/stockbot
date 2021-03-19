@@ -1,5 +1,9 @@
 from .db import db
 
+class Configuration(db.Document):
+    config_name = db.StringField(required=True)
+    stock = db.BooleanField()
+
 class Item(db.Document):
     name = db.StringField(required=True)
     manufacturer = db.StringField()
@@ -9,7 +13,7 @@ class Item(db.Document):
     lastStocked = db.DateTimeField()
     date_added =db.DateTimeField()
     img_url = db.URLField(required=True)
-    config = db.EmbeddedDocumentListField()
+    config = db.EmbeddedDocumentListField(Configuration)
     meta = {'collection': 'items'}
 
     def __str__(self) -> str:
@@ -26,9 +30,7 @@ class Change(db.Document):
     timestamp = db.DateTimeField(required=True)
     meta = {'collection': 'changes'}
 
-class Configuration(db.Document):
-    config_name = db.StringField(required=True)
-    stock = db.BooleanField()
+
 
 class Taskmeta(db.DynamicDocument):
     status = db.StringField()
