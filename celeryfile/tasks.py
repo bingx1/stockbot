@@ -5,7 +5,6 @@ from datetime import datetime
 from util.mongo_adaptor import MongoAdaptor
 from util.scraper_handler import ScraperHandler
 MongoAdaptor = MongoAdaptor()
-# RogueParser = RogueParser()
 ScraperHandler = ScraperHandler()
 
 @shared_task()
@@ -51,7 +50,9 @@ def parse_and_return(html, item):
             item.stock = False
             change = True
     if 'config' in parsed:
-        item.config = parsed['config']
+        print('hello')
+        config = MongoAdaptor.make_config(parsed['config'])
+        item.config = config
     item.save()
     if change:
         return [item.name, item.stock, datetime.now()]

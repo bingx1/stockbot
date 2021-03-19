@@ -40,13 +40,13 @@ class RogueParser():
             swatches = attribute.find_all(class_='swatch-holder')
             for swatch in swatches:
                 if swatch.find(class_='swatch active bin'):
-                    config.append({'config_name': [swatch.find(class_='swatch active bin')['data-value']], 'stock': False})
+                    config.append({'config_name': swatch.find(class_='swatch active bin')['data-value'], 'stock': False})
                 elif swatch.find(class_='swatch active'):
-                    config.append({'config_name': [swatch.find(class_='swatch active')['data-value']], 'stock': True})
+                    config.append({'config_name': swatch.find(class_='swatch active')['data-value'], 'stock': True})
                 elif swatch.find(class_='swatch bin'):
-                    config.append({'config_name': [swatch.find(class_='swatch bin')['data-value']], 'stock': False})
+                    config.append({'config_name': swatch.find(class_='swatch bin')['data-value'], 'stock': False})
                 elif swatch.find(class_='swatch'):
-                    config.append({'config_name': [swatch.find(class_='swatch')['data-value']], 'stock': True})
+                    config.append({'config_name': swatch.find(class_='swatch')['data-value'], 'stock': True})
         return config
 
     def parse_single_item(self, soup):

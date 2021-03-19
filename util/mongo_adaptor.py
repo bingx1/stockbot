@@ -1,5 +1,5 @@
 import json
-from util.models import Change, Item, Taskmeta
+from util.models import Change, Item, Taskmeta, Configuration
 
 class MongoAdaptor():
 
@@ -54,4 +54,11 @@ class MongoAdaptor():
     def get_changes(self):
         ''' Returns a list of all the Item objects in the database'''
         return Change.objects
-    
+
+    def make_config(self, config_list):
+        output = []
+        for config in config_list:
+            print(config)
+            output.append(Configuration(config_name = config['config_name'], stock = config['stock']))
+        print(output)
+        return output

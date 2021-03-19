@@ -1,8 +1,10 @@
 from .db import db
 
-class Configuration(db.Document):
+
+class Configuration(db.EmbeddedDocument):
     config_name = db.StringField(required=True)
     stock = db.BooleanField()
+
 
 class Item(db.Document):
     name = db.StringField(required=True)
@@ -11,7 +13,7 @@ class Item(db.Document):
     stock = db.BooleanField(required=True)
     url = db.URLField(required=True)
     lastStocked = db.DateTimeField()
-    date_added =db.DateTimeField()
+    date_added = db.DateTimeField()
     img_url = db.URLField(required=True)
     config = db.EmbeddedDocumentListField(Configuration)
     meta = {'collection': 'items'}
@@ -24,6 +26,7 @@ class Item(db.Document):
         return "{}\n[${}]({})\n{}\n < Last in stock: {} >\n".format(
             self.name, self.price, self.url, stock_msg, self.lastStocked)
 
+
 class Change(db.Document):
     item_name = db.StringField(required=True)
     restock = db.BooleanField(required=True)
@@ -31,10 +34,9 @@ class Change(db.Document):
     meta = {'collection': 'changes'}
 
 
-
 class Taskmeta(db.DynamicDocument):
     status = db.StringField()
     result = db.ListField()
     children = db.ListField()
     date_done = db.DateTimeField()
-    meta = {'collection' : 'taskmeta'}
+    meta = {'collection': 'taskmeta'}
