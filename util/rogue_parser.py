@@ -26,7 +26,9 @@ class RogueParser():
             break
         if soup.find(class_='configuration'):
             item_dict['config'] = self.handle_configuration(soup)
-
+            for key in item_dict['config']:
+                if item_dict['config'][key]:
+                    item_dict['stock'] =  True
         return item_dict
 
     def handle_configuration(self, soup):
