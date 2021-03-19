@@ -36,8 +36,15 @@ class RogueParser():
         return results
     
     def parse_single_item(self, soup):
-        print('Single item parser not implemented yet')
-        return
+        in_stock = False
+        if soup.find(class_="button btn-size-m red full"):
+            in_stock = True
+        price = extract_price(soup.find(class_="main-price").contents[0])
+        name = soup.find(class_='name').contents[0]
+        thumbnail = get_thumbnail(soup)
+        result = {'name': name, 'price': price,
+                  'stock': in_stock, 'img_url': thumbnail}
+        return [result]
 
     def parse_plates(self, soup):
         print("Plate parser not implemented yet")
