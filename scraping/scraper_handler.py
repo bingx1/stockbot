@@ -1,0 +1,1 @@
+''' The scraper handler is responsible for allocating a particular parser to be used'''
