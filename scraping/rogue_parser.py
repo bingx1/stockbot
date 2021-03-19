@@ -76,6 +76,7 @@ class RogueParser():
         item['stock'] = stock
         item['price'] = None
         item['config'] = config
+        item['img_url'] = get_thumbnail(soup)
         return item
 
 def extract_price(price_string: str) -> int:
