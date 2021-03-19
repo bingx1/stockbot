@@ -26,6 +26,10 @@ class Change(db.Document):
     timestamp = db.DateTimeField(required=True)
     meta = {'collection': 'changes'}
 
+class Configuration(db.Document):
+    config_name = db.StringField(required=True)
+    stock = db.BooleanField()
+
 class Taskmeta(db.DynamicDocument):
     status = db.StringField()
     result = db.ListField()
