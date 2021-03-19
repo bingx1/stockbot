@@ -18,41 +18,37 @@ class RogueParser():
         return output
 
     def parse_rack(self, soup):
-        results = []
-        item =soup.find(class_='rhpa-content')
+        item_dict = {}
+        entries = soup.find_all(class_='rhpa-opts option grouped-rhpa')
+        for entry in entries:
+            # print(entry)
+            item_dict['name'] = entry.find(class_='simple-name').contents[0]
+            item_dict['stock'] = not entry.find(class_='simple is-oos')
+            item_dict['price'] = extract_price(entry.find(class_='simple-price condensed').contents[0])
+            item_dict['img_url'] = get_thumbnail(soup)
+            break
         if soup.find(class_='configuration'):
-            self.handle_configuration(soup)
-        else:
-        # product_title = item.find(class_='title').find(class_='name').contents[0]
-        # Entries
-            item_data = item.find(class_='rhpa bin grouped')
-            entries = item_data.find_all(class_='rhpa-opts option grouped-rhpa')
-            for entry in entries:
-                name = entry.find(class_='simple-name').contents[0]
-                status = not entry.find(class_='simple is-oos')
-                price = extract_price(entry.find(class_='simple-price condensed').contents[0])
-                img_url = get_thumbnail(soup)
-                item_dict = {'name': name,'stock' :status,'price':price,'img_url':img_url}
-                results.append(item_dict)
-                break
-        return results
+            item_dict['config']  = self.handle_configuration(soup)
+
+        return item_dict
     
     def handle_configuration(self, soup):
         configuration = soup.find(class_='configuration')
+        config = {}
         # attributes
         attributes = configuration.find_all(class_='attribute')
         for attribute in attributes:
             swatches = attribute.find_all(class_='swatch-holder')
             for swatch in swatches:
                 if swatch.find(class_ = 'swatch active bin'):
-                    print('OOS', swatch.find(class_ = 'swatch active bin')['data-value'])
+                    config[swatch.find(class_ = 'swatch active bin')['data-value']] = False
                 elif swatch.find(class_ = 'swatch active'):
-                    print('In stock', swatch.find(class_ = 'swatch active')['data-value'])
+                    config[swatch.find(class_ = 'swatch active')['data-value']] = True
                 elif swatch.find(class_ = 'swatch bin'):
-                    print('OOS', swatch.find(class_='swatch bin')['data-value'])
+                    config[swatch.find(class_='swatch bin')['data-value']] = False
                 elif swatch.find(class_='swatch'):
-                    print('In stock', swatch.find(class_='swatch')['data-value'])
-        return
+                    config[swatch.find(class_='swatch')['data-value']] = True
+        return config
         
     def parse_single_item(self, soup):
         in_stock = False
@@ -63,30 +59,37 @@ class RogueParser():
         thumbnail = get_thumbnail(soup)
         result = {'name': name, 'price': price,
                   'stock': in_stock, 'img_url': thumbnail}
-        return [result]
+        return result
 
     def parse_plates(self, soup):
         plates = soup.find_all(class_='swatch-holder')
+        item = {}
+        item['name'] = soup.find(class_='name').contents[0]
+        config = {}
+        stock = False
         for swatch in plates:
-            if swatch.find(class_ = 'swatch active bin'):
-                print('OOS', swatch.find('span').text)
-            elif swatch.find(class_ = 'swatch active'):
-                print('In stock', swatch.find('span').text)
-            elif swatch.find(class_ = 'swatch bin'):
-                print('OOS', swatch.find('span').text)
-            elif swatch.find(class_='swatch'):
-                print('In stock', swatch.find('span').text)
-        return
+            if swatch.find(class_ = 'swatch active bin') or swatch.find(class_ = 'swatch bin'):
+                config[swatch.find('span').text] = False
+            elif swatch.find(class_ = 'swatch active') or swatch.find(class_='swatch'):
+                config[swatch.find('span').text] = True
+                stock = True
+        item['stock'] = stock
+        item['price'] = None
+        item['config'] = config
+        return item
 
 def extract_price(price_string: str) -> int:
     """Helper function to convert a string in the form 'A$1,595.00' to an integer 1595"""
     return int(price_string.split('.')[0].replace(',', '')[2:])
 
 
-def get_thumbnail(soup: BeautifulSoup) -> str: 
+def get_thumbnail(soup: BeautifulSoup): 
     '''Helper function to retrieve the url location of the items thumbnail from html'''
-    imgs = soup.find(class_="custom-scroll product-scroll")
-    return imgs.find(class_="image aspect-169 active i-c").findChild("img")['src']
+    if soup.find(class_='hero main-container-fluid'):
+        # Images are loaded by JS - CANT RETRIEVE
+        return None
+    else:
+        return soup.find(class_="image aspect-169 active i-c").findChild("img")['src']
 
 
 
