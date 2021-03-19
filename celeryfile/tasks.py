@@ -3,7 +3,10 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 from util.mongo_adaptor import MongoAdaptor
+from util.scraper_handler import ScraperHandler
 MongoAdaptor = MongoAdaptor()
+# RogueParser = RogueParser()
+ScraperHandler = ScraperHandler()
 
 @shared_task()
 def update_item_status():
@@ -33,7 +36,9 @@ def fetch_and_parse(items):
 def parse_and_return(html, item):
     soup = BeautifulSoup(html.text, 'html.parser')
     change = False
-    if soup.find(class_="button btn-size-m red full"):
+    parsed = ScraperHandler.parse(item.url, soup)
+    if parsed['stock']:
+    # if soup.find(class_="button btn-size-m red full"):
         # Item has been restocked
         if not item.stock:
             print('Restocked!')

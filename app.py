@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, render_template
+from flask import Flask 
 from util.db import initialize_db
 from celeryfile.celeryinit import make_celery
 from routes.webpages import webpages

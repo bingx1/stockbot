@@ -5,6 +5,8 @@ mongodb_backend_settings = {
 }
 timezone = 'Australia/Melbourne'
 broker_url = 'redis://localhost:6379/0'
+worker_prefetch_multiplier = 1
+imports = ['util.mongo_adaptor', 'util.scraper_handler']
 #used to schedule tasks periodically and passing optional arguments 
 beat_schedule = {
     'every-minute': {
