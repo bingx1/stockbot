@@ -26,30 +26,27 @@ class RogueParser():
             break
         if soup.find(class_='configuration'):
             item_dict['config'] = self.handle_configuration(soup)
-            for key in item_dict['config']:
-                if item_dict['config'][key]:
+            for config in item_dict['config']:
+                if config['stock']:
                     item_dict['stock'] =  True
         return item_dict
 
     def handle_configuration(self, soup):
         configuration = soup.find(class_='configuration')
-        config = {}
+        config = []
         # attributes
         attributes = configuration.find_all(class_='attribute')
         for attribute in attributes:
             swatches = attribute.find_all(class_='swatch-holder')
             for swatch in swatches:
                 if swatch.find(class_='swatch active bin'):
-                    config[swatch.find(class_='swatch active bin')[
-                        'data-value']] = False
+                    config.append({'config_name': [swatch.find(class_='swatch active bin')['data-value']], 'stock': False})
                 elif swatch.find(class_='swatch active'):
-                    config[swatch.find(class_='swatch active')[
-                        'data-value']] = True
+                    config.append({'config_name': [swatch.find(class_='swatch active')['data-value']], 'stock': True})
                 elif swatch.find(class_='swatch bin'):
-                    config[swatch.find(class_='swatch bin')[
-                        'data-value']] = False
+                    config.append({'config_name': [swatch.find(class_='swatch bin')['data-value']], 'stock': False})
                 elif swatch.find(class_='swatch'):
-                    config[swatch.find(class_='swatch')['data-value']] = True
+                    config.append({'config_name': [swatch.find(class_='swatch')['data-value']], 'stock': True})
         return config
 
     def parse_single_item(self, soup):
@@ -67,13 +64,13 @@ class RogueParser():
         plates = soup.find_all(class_='swatch-holder')
         item = {}
         item['name'] = soup.find(class_='name').contents[0]
-        config = {}
+        config = []
         stock = False
         for swatch in plates:
             if swatch.find(class_='swatch active bin') or swatch.find(class_='swatch bin'):
-                config[swatch.find('span').text] = False
+                config.append({'config_name': swatch.find('span').text, 'stock' : False})
             elif swatch.find(class_='swatch active') or swatch.find(class_='swatch'):
-                config[swatch.find('span').text] = True
+                config.append({'config_name': swatch.find('span').text, 'stock' : True})
                 stock = True
         item['stock'] = stock
         item['price'] = None

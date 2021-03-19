@@ -9,6 +9,7 @@ class Item(db.Document):
     lastStocked = db.DateTimeField()
     date_added =db.DateTimeField()
     img_url = db.URLField(required=True)
+    config = db.EmbeddedDocumentListField()
     meta = {'collection': 'items'}
 
     def __str__(self) -> str:

@@ -38,7 +38,6 @@ def parse_and_return(html, item):
     change = False
     parsed = ScraperHandler.parse(item.url, soup)
     if parsed['stock']:
-    # if soup.find(class_="button btn-size-m red full"):
         # Item has been restocked
         if not item.stock:
             print('Restocked!')
@@ -51,6 +50,8 @@ def parse_and_return(html, item):
             print('Now OOS')
             item.stock = False
             change = True
+    if 'config' in parsed:
+        item.config = parsed['config']
     item.save()
     if change:
         return [item.name, item.stock, datetime.now()]

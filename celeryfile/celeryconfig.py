@@ -3,6 +3,7 @@ mongodb_backend_settings = {
     'database': 'items',
     'taskmeta_collection': 'taskmeta',
 }
+enable_utc = False
 timezone = 'Australia/Melbourne'
 broker_url = 'redis://localhost:6379/0'
 worker_prefetch_multiplier = 1
