@@ -6,7 +6,7 @@
         {% else %}
         <strong class="d-block text-gray-dark" style="color:crimson;">{{ item.name }}</strong>
         {% endif %}  
-        ${{ item.price }}
+        {% if item.price %} ${{ item.price }} {% endif %}
     </p>
   </div>
   

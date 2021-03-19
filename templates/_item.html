@@ -7,7 +7,7 @@
         >{{ item.manufacturer}}</strong
       >
       <h3 class="mb-0">{{ item.name }}</h3>
-      <div class="mb-1 text-muted">${{ item.price }}</div>
+      <div class="mb-1 text-muted">{% if item.price %} ${{ item.price }} {% endif %}</div>
       <p class="card-text mb-auto">
         {% if item.stock %}<a style="color:green"> In stock</a><br>Click the thumbnail to purchase!{% else %} <a style="color:crimson">Out of stock</a><br>Please check back later for updates or join our discord server to be notified of restocks!
         {% endif %}

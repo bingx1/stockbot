@@ -1,7 +1,19 @@
 <div class="d-flex text-muted pt-3">
     <p class="pb-3 mb-0 small lh-sm border-bottom">
       <strong class="d-block text-gray-dark">{{ item.name }}</strong>
-        ${{ item.price }}
+      {% if item.price %} 
+        <a style="color: green;"> ${{ item.price }} </a><br> 
+      {% endif %}
+      {% if item.config %}
+        {% for configuration in item.config %}
+          {{ configuration.config_name}}: 
+          {% if configuration.stock %}
+          <a style="color:darkgreen">In stock</a><br>
+          {% else %}
+          <a style="color: red;">Out of stock</a><br>
+          {% endif %}
+        {% endfor %} 
+      {% endif %} 
     </p>
   </div>
-  
+   
