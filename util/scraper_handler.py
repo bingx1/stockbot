@@ -10,11 +10,9 @@ class ScraperHandler():
     
     def parse(self, url, soup):
         if 'rogueaustralia' in url:
-            res =  self.rogue.parse_html(soup)
-            res['manufacturer'] = self.rogue.manufacturer
+            res = self.rogue.parse_html(soup)
         elif 'kabuki' in url:
             res = self.kabuki.parse_html(soup)
-            res['manufacturer'] = self.kabuki.manufacturer
         res['url'] = url
         return res
         

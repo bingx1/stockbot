@@ -11,6 +11,7 @@ class RogueParser():
             output = self.parse_plates(soup)
         else:
             output = self.parse_single_item(soup)
+        output['manufacturer'] = self.manufacturer
         return output
 
     def parse_rack(self, soup):

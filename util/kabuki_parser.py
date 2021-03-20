@@ -22,6 +22,7 @@ class KabukiParser():
         item['stock'] = stock
         item['price'] = self.extract_price(price)
         item['img_url'] = img_url
+        item['manufacturer'] = self.manufacturer
         return item
 
     def extract_price(self, price_str):
