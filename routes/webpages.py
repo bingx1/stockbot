@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, url_for, redirect
 from util.mongo_adaptor import MongoAdaptor
 from datetime import datetime
 MongoAdaptor = MongoAdaptor()
@@ -42,15 +42,24 @@ def parse_query(query, items):
 def faq():
     return render_template('faq.html')
 
-@webpages.route('/items')
-def get_items():
-    all_items = MongoAdaptor.fetch_items_dict()
-    req = request.args
-    manufacturer = req.get('brand')
-    if manufacturer:
-        result = [item for item in all_items if item['manufacturer'].lower() == manufacturer.lower()]
-        return render_template('items.html', number=len(result), items=result)
-    return render_template('items.html', number=len(all_items), items=all_items)
+@webpages.route('/items/all')
+def render_all_items():
+    page = int(request.args.get('page',1))
+    limit = int(request.args.get('limit',5))
+    items = MongoAdaptor.paginate_items(page, limit)
+    return render_template('items.html', number=10, paginated_items=items , page_num = page)
+
+
+
+
+# def get_items():
+#     all_items = MongoAdaptor.fetch_items_dict()
+#     req = request.args
+#     manufacturer = req.get('brand')
+#     if manufacturer:
+#         result = [item for item in all_items if item['manufacturer'].lower() == manufacturer.lower()]
+#         return render_template('items.html', number=len(result), items=result)
+#     return render_template('items.html', number=len(all_items), items=all_items)
 
 
 @webpages.route('/dashboard')

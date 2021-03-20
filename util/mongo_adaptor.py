@@ -61,3 +61,6 @@ class MongoAdaptor():
             output.append(Configuration(config_name = config['config_name'], stock = config['stock']))
         print(output)
         return output
+
+    def paginate_items(self, page_no, limit):
+        return Item.objects.paginate(page=page_no, per_page=limit)
