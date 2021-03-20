@@ -5,14 +5,12 @@ MongoAdaptor = MongoAdaptor()
 
 webpages = Blueprint('webpages', __name__, template_folder='templates')
 
+
 @webpages.route('/index')
 @webpages.route('/')
 def index():
     items = MongoAdaptor.fetch_items_dict(3)
     return render_template('index.html', title='Home', items=items)
-
-
-
 
 
 @webpages.route('/search', methods=['GET', 'POST'])
@@ -28,7 +26,7 @@ def search():
 
 
 def parse_query(query, items):
-    queries = query.split() 
+    queries = query.split()
     result = []
     for item in items:
         for q in queries:
@@ -37,21 +35,21 @@ def parse_query(query, items):
     return result
 
 
-
 @webpages.route('/items')
 def items():
-    page = int(request.args.get('page',1))
-    limit = int(request.args.get('limit',5))
+    page = int(request.args.get('page', 1))
+    limit = int(request.args.get('limit', 5))
     items = MongoAdaptor.paginate_items(page, limit)
-    return render_template('items.html', number=10, paginated_items=items , page_num = page)
+    return render_template('items.html', number=10, paginated_items=items, page_num=page)
 
 
 @webpages.route('/items/brand/<manufacturer>')
 def manufacturer_items(manufacturer):
-    page = int(request.args.get('page',1))
-    limit = int(request.args.get('limit',8))
-    brand_items = MongoAdaptor.paginate_items(page, limit, manufacturer.capitalize())
-    return render_template('items.html', number=5, paginated_items=brand_items, page_num = page, title=manufacturer.capitalize())
+    page = int(request.args.get('page', 1))
+    limit = int(request.args.get('limit', 8))
+    brand_items = MongoAdaptor.paginate_items(
+        page, limit, manufacturer.capitalize())
+    return render_template('items.html', number=5, paginated_items=brand_items, page_num=page, title=manufacturer.capitalize())
 
 
 @webpages.route('/dashboard')
@@ -61,6 +59,7 @@ def dashboard():
     in_stock = [item for item in items if item['stock']]
     last_update = MongoAdaptor.fetch_taskresults_dict(1)
     date = last_update[0]['date_done']
-    date = datetime(int(date[:4]),int(date[5:7]),int(date[8:10]),int(date[11:13]), int(date[14:16]))
+    date = datetime(int(date[:4]), int(date[5:7]), int(
+        date[8:10]), int(date[11:13]), int(date[14:16]))
     time_formatted = date.strftime(r"%A, %b %d %I:%M%p")
-    return render_template('dashboard.html', date = time_formatted, changes=recent_changes, items=in_stock)
+    return render_template('dashboard.html', date=time_formatted, changes=recent_changes, items=in_stock)
