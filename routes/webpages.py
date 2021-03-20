@@ -8,7 +8,7 @@ webpages = Blueprint('webpages', __name__, template_folder='templates')
 @webpages.route('/index')
 @webpages.route('/')
 def index():
-    items = MongoAdaptor.fetch_items_dict(2)
+    items = MongoAdaptor.fetch_items_dict(3)
     return render_template('index.html', title='Home', items=items)
 
 
