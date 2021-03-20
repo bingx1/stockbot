@@ -20,22 +20,33 @@
 
     {# Macro for creating navigation links #}
 {% macro render_navigation(pagination, endpoint) %}
-  <div class=pagination>
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
   {% for page in pagination.iter_pages() %}
     {% if page %}
       {% if page != pagination.page %}
-        <a href="{{ url_for(endpoint, page=page) }}">{{ page }}</a>
+        <li class="page-item"><a class="page-link" href="{{ url_for('webpages.items', page=page) }}">{{ page }} </a></li>
+        <!-- <a href="{{ url_for('webpages.items', page=page) }}">{{ page }}  </a> -->
       {% else %}
-        <strong>{{ page }}</strong>
+        <li class="page-item active"><a class="page-link" href="{{ url_for('webpages.items', page=page) }}">{{ page }} </a></li>
       {% endif %}
     {% else %}
       <span class=ellipsis>…</span>
     {% endif %}
   {% endfor %}
-  </div>
+  </ul>
+</nav>
 {% endmacro %}
 
 {{ render_navigation(paginated_items, ) }}
-  
+
+<!-- <nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item"><a class="page-link" href="#">1</a></li>
+    <li class="page-item"><a class="page-link" href="#">2</a></li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+  </ul>
+</nav> -->
+
 
 {% endblock %}

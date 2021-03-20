@@ -62,5 +62,8 @@ class MongoAdaptor():
         print(output)
         return output
 
-    def paginate_items(self, page_no, limit):
-        return Item.objects.paginate(page=page_no, per_page=limit)
+    def paginate_items(self, page_no, limit, brand = None):
+        if not brand:
+            return Item.objects.paginate(page=page_no, per_page=limit)
+        else:
+            return Item.objects(manufacturer=brand).paginate(page=page_no, per_page=limit)

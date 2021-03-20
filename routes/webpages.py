@@ -12,9 +12,7 @@ def index():
     return render_template('index.html', title='Home', items=items)
 
 
-@webpages.route('/about')
-def about():
-    return render_template('about.html')
+
 
 
 @webpages.route('/search', methods=['GET', 'POST'])
@@ -38,12 +36,10 @@ def parse_query(query, items):
                 result.append(item)
     return result
 
-@webpages.route('/faq')
-def faq():
-    return render_template('faq.html')
 
-@webpages.route('/items/all')
-def render_all_items():
+
+@webpages.route('/items')
+def items():
     page = int(request.args.get('page',1))
     limit = int(request.args.get('limit',5))
     items = MongoAdaptor.paginate_items(page, limit)

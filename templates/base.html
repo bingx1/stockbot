@@ -26,7 +26,7 @@
               <a class="nav-link" href='{{ url_for('webpages.index') }}' style="color: azure;">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/about" style="color: azure;">About</a>
+              <a class="nav-link" href="{{ url_for('staticpages.about') }}" style="color: azure;">About</a>
             </li>
           </ul>
           <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
@@ -43,7 +43,7 @@
               </a>
             </li>
           </ul>
-          <form action="/search" method="post" class="form-inline my-2 my-lg-0">
+          <form action="{{ url_for('webpages.search') }}" method="post" class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" id="search" name="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
           </form>
@@ -56,19 +56,19 @@
             <div class="position-sticky pt-3">
               <ul class="nav flex-column">
                 <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="/dashboard">
+                  <a class="nav-link active" aria-current="page" href="{{ url_for('webpages.dashboard') }}">
                     <span data-feather="home"></span>
                     Dashboard
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="/faq">
+                  <a class="nav-link" href="{{ url_for('staticpages.faq') }}">
                     <span data-feather="file"></span>
                     FAQ
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="/items/all?page=1">
+                  <a class="nav-link" href="{{ url_for('webpages.items') }}">
                     <span data-feather="shopping-cart"></span>
                     Items
                   </a>
