@@ -50,7 +50,6 @@ def parse_and_return(html, item):
             item.stock = False
             change = True
     if 'config' in parsed:
-        print('hello')
         config = MongoAdaptor.make_config(parsed['config'])
         item.config = config
     item.save()

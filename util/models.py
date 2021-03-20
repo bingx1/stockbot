@@ -9,7 +9,7 @@ class Configuration(db.EmbeddedDocument):
 class Item(db.Document):
     name = db.StringField(required=True)
     manufacturer = db.StringField()
-    price = db.IntField()
+    price = db.FloatField()
     stock = db.BooleanField(required=True)
     url = db.URLField(required=True)
     lastStocked = db.DateTimeField()

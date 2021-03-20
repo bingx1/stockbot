@@ -1,5 +1,5 @@
-from rogue_parser import RogueParser
-from kabuki_parser import KabukiParser
+from .rogue_parser import RogueParser
+from .kabuki_parser import KabukiParser
 ''' The scraper handler is responsible for allocating a particular parser to be used'''
 
 class ScraperHandler():

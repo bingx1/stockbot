@@ -58,7 +58,6 @@ class MongoAdaptor():
     def make_config(self, config_list):
         output = []
         for config in config_list:
-            print(config)
             output.append(Configuration(config_name = config['config_name'], stock = config['stock']))
         print(output)
         return output
