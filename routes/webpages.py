@@ -46,16 +46,12 @@ def items():
     return render_template('items.html', number=10, paginated_items=items , page_num = page)
 
 
-
-
-# def get_items():
-#     all_items = MongoAdaptor.fetch_items_dict()
-#     req = request.args
-#     manufacturer = req.get('brand')
-#     if manufacturer:
-#         result = [item for item in all_items if item['manufacturer'].lower() == manufacturer.lower()]
-#         return render_template('items.html', number=len(result), items=result)
-#     return render_template('items.html', number=len(all_items), items=all_items)
+@webpages.route('/items/brand/<manufacturer>')
+def manufacturer_items(manufacturer):
+    page = int(request.args.get('page',1))
+    limit = int(request.args.get('limit',8))
+    brand_items = MongoAdaptor.paginate_items(page, limit, manufacturer.capitalize())
+    return render_template('items.html', number=5, paginated_items=brand_items, page_num = page, title=manufacturer.capitalize())
 
 
 @webpages.route('/dashboard')

@@ -79,13 +79,13 @@
               </h6>
               <ul class="nav flex-column mb-2">
                 <li class="nav-item">
-                  <a class="nav-link" href="/items?brand=rogue">
+                  <a class="nav-link" href="{{ url_for('webpages.manufacturer_items', manufacturer='Rogue') }}">
                     <span data-feather="file-text"></span>
                     Rogue
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="/items?brand=kabuki">
+                  <a class="nav-link" href="{{ url_for('webpages.manufacturer_items', manufacturer='Kabuki') }}">
                     <span data-feather="/items?brand=kabuki"></span>
                     Kabuki
                   </a>
