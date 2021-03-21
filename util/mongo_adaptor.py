@@ -33,16 +33,16 @@ class MongoAdaptor():
     def fetch_items_dict(self, num = None):
         ''' Returns a list of items as python dictionaries'''
         if not num:
-            return [item._data for item in Item.objects]    
+            return [item.to_mongo().to_dict() for item in Item.objects]    
         else:
-            return [item._data for item in Item.objects[:num]]
+            return [item.to_mongo().to_dict() for item in Item.objects[:num]]
 
     def fetch_changes_dict(self, num= None):
         ''' Returns a list of changes as python dictionaries'''
         if not num:
-            return [change._data for change in Change.objects().order_by('-timestamp')]
+            return [change.to_mongo().to_dict() for change in Change.objects().order_by('-timestamp')]
         else:
-            return [change._data for change in Change.objects().order_by('-timestamp')[:num]]
+            return [change.to_mongo().to_dict() for change in Change.objects().order_by('-timestamp')[:num]]
 
     def fetch_taskresults_dict(self, num):
         return [taskmeta._data for taskmeta in Taskmeta.objects().order_by('-date_done')[:num]]
@@ -67,3 +67,10 @@ class MongoAdaptor():
             return Item.objects.paginate(page=page_no, per_page=limit)
         else:
             return Item.objects(manufacturer=brand).paginate(page=page_no, per_page=limit)
+
+
+if __name__ == '__main__':
+    MongoAdaptor = MongoAdaptor()
+    items = MongoAdaptor.fetch_items_dict()
+    for item in items:
+        print(item)
