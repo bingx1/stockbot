@@ -3,7 +3,7 @@ from util.mongo_adaptor import MongoAdaptor
 from datetime import datetime
 MongoAdaptor = MongoAdaptor()
 
-webpages = Blueprint('webpages', __name__, template_folder='templates')
+webpages = Blueprint('webpages', __name__, template_folder='templates',static_folder='static')
 
 
 @webpages.route('/index')
