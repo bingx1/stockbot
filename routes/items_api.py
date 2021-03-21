@@ -8,11 +8,12 @@ items_api = Blueprint('items_api', __name__)
 def items():
     items = MongoAdaptor.fetch_items_dict()
     for item in items:
-        del item['_id'] 
-        # item.pop('_id', None)
-    
+        del item['_id']     
     return jsonify(items)
 
-@items_api.route('/api/changes', methods=['GET'])
+@items_api.route('/api/changes/all', methods=['GET'])
 def changes():
-    return MongoAdaptor.fetch_changes_dict()
+    items = MongoAdaptor.fetch_changes_dict()
+    for item in items:
+        del item['_id']     
+    return jsonify(items)
