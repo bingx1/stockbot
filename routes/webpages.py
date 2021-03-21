@@ -49,7 +49,7 @@ def manufacturer_items(manufacturer):
     limit = int(request.args.get('limit', 8))
     brand_items = MongoAdaptor.paginate_items(
         page, limit, manufacturer)
-    return render_template('items.html', number=5, paginated_items=brand_items, page_num=page, title=manufacturer)
+    return render_template('brand_items.html', number=5, paginated_items=brand_items, page_num=page, title=manufacturer)
 
 
 @webpages.route('/dashboard')
