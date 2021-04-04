@@ -1,11 +1,14 @@
 # Stock Bot
 Simple web application to track the stock status of gym equipment. 
-Simplifys the experience of building a home gym in 2020-2021!
+Built to simplify the experience of building a home gym in 2020-2021.
 Developed in response to the shortage brought upon by COVID-19 and the unreliability of manufacturers' own email restock alerts.
 Items are automatically refreshed in the background every 5 minutes through Celery.
  
 ## Author
 Bing Xu
+
+https://user-images.githubusercontent.com/50439413/113513829-d8423d80-95ae-11eb-8ddb-c207a86ad4c6.png
+
 
 ### Currently supported manufacturers and websites:
 - Rogue
