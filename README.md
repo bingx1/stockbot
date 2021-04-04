@@ -6,7 +6,7 @@ Items are automatically refreshed in the background every 5 minutes through Cele
  
 ## Author
 Bing Xu
-
+![alt_text](https://user-images.githubusercontent.com/50439413/113514032-bb5a3a00-95af-11eb-8b17-7b29446a546a.png)
 ![alt text](https://user-images.githubusercontent.com/50439413/113513829-d8423d80-95ae-11eb-8ddb-c207a86ad4c6.png)
 
 
